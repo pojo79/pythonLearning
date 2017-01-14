@@ -5,6 +5,7 @@ import random
 a = pygame.init()
 
 WHITE = (255,255,255)
+GRAY = (155,155,155)
 BLACK = (0,0,0)
 RED = (255,0,0)
 GREEN = (0,155,0)
@@ -54,7 +55,7 @@ def gameLoop():
     while not gameExit:
 
         while gameOver == True:
-            gameDisplay.fill(WHITE)
+            gameDisplay.fill(GRAY)
             message_to_screen("Game over, press 'C' to play again or 'Q' to quit", BLACK)
             pygame.display.update()
 
