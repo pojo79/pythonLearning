@@ -29,9 +29,15 @@ def eatApple(block_size):
     randAppleY = round(random.randrange(0, gameDisplay.get_height()-block_size)/10)*10
 
 def drawSnake(block_size, snakelist):
+    place = 0
     for XnY in snakelist:
         if XnY != snakelist[len(snakelist)-1]:
-            pygame.draw.rect(gameDisplay, BLACK, [XnY[0],XnY[1],block_size,block_size])
+            place+=1
+            if place % 2 == 0:
+                drawColor = BLACK
+            else:
+                drawColor = GRAY
+            pygame.draw.rect(gameDisplay, drawColor, [XnY[0],XnY[1],block_size,block_size])
         else:
             pygame.draw.rect(gameDisplay, GREEN, [XnY[0],XnY[1],block_size,block_size])
     
