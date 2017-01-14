@@ -59,7 +59,10 @@ def gameLoop():
             pygame.display.update()
 
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.QUIT:
+                    gameOver = False
+                    gameExit = True
+                elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
                         gameExit = True
                         gameOver = False
