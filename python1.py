@@ -138,7 +138,7 @@ def gameLoop():
         drawSnake(block_size, snakeList)
 
         for snakePart in snakeList[:-1]:
-            if snakePart == snakeHead:
+            if snakePart[0] == snakeHead[0] and snakePart[1] == snakeHead[1]:
                 gameOver = True
 
         if (lead_x > randAppleX and lead_x < randAppleX + apple_size or lead_x +block_size > randAppleX and lead_x+block_size < randAppleX+apple_size) \
