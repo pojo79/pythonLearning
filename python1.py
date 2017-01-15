@@ -10,6 +10,10 @@ BLACK = (0,0,0)
 RED = (255,0,0)
 GREEN = (0,155,1)
 FPS = 15
+NORTH = 0
+EAST = 90
+SOUTH = 180
+WEST = 270
 
 gameDisplay = pygame.display.set_mode((800,600))
 clock = pygame.time.Clock()
@@ -17,7 +21,9 @@ clock = pygame.time.Clock()
 pygame.display.update()
 
 pygame.display.set_caption('Slither')
-gameDisplay
+
+snakeHeadimg = pygame.image.load('snakehead.png')
+snakeBodyimg = pygame.image.load('snakebody.png')
 
 font = pygame.font.SysFont(None, 25)
 
@@ -32,6 +38,10 @@ def textObjects(msg, color):
     textSurface = font.render(msg, True, color)
     return textSurface, textSurface.get_rect()
 
+def getImage(img, direction):
+
+    return 
+
 def eatApple(block_size):
     randAppleX = round(random.randrange(0, gameDisplay.get_width()-block_size)/10)*10
     randAppleY = round(random.randrange(0, gameDisplay.get_height()-block_size)/10)*10
@@ -40,14 +50,11 @@ def drawSnake(block_size, snakelist):
     place = 0
     for XnY in snakelist:
         if XnY != snakelist[len(snakelist)-1]:
-            place+=1
-            if place % 2 == 0:
-                drawColor = BLACK
-            else:
-                drawColor = GRAY
-            pygame.draw.rect(gameDisplay, drawColor, [XnY[0],XnY[1],block_size,block_size])
+            rotatedBodyImg = pygame.transform.rotate(snakeBodyimg, XnY[2])
+            gameDisplay.blit(rotatedBodyImg, (XnY[0], XnY[1]))
         else:
-            pygame.draw.rect(gameDisplay, GREEN, [XnY[0],XnY[1],block_size,block_size])
+            rotatedHeadimg = pygame.transform.rotate(snakeHeadimg, XnY[2])
+            gameDisplay.blit(rotatedHeadimg, (XnY[0],XnY[1]))
     
 def gameLoop():
     
@@ -57,8 +64,9 @@ def gameLoop():
     lead_y = gameDisplay.get_height()/2
     x_change = 0
     y_change = 0
-    block_size = 10
-    apple_size = 20
+    block_size = 20
+    apple_size = 30
+    direction = NORTH
 
     randAppleX = round(random.randrange(0, gameDisplay.get_width()-apple_size))
     randAppleY = round(random.randrange(0, gameDisplay.get_height()-apple_size))
@@ -93,15 +101,19 @@ def gameLoop():
                 if event.key == pygame.K_LEFT:
                     x_change = 0 - block_size
                     y_change = 0
+                    direction = EAST
                 elif event.key == pygame.K_RIGHT:
                     x_change = block_size
                     y_change = 0
+                    direction = WEST
                 elif event.key == pygame.K_UP:
                     y_change = 0- block_size
                     x_change = 0
+                    direction = NORTH
                 elif event.key == pygame.K_DOWN:
                     y_change = block_size
                     x_change = 0
+                    direction = SOUTH
             
 
 
@@ -119,6 +131,7 @@ def gameLoop():
         snakeHead = []
         snakeHead.append(lead_x)
         snakeHead.append(lead_y)
+        snakeHead.append(direction)
         snakeList.append(snakeHead)  
         drawSnake(block_size, snakeList)
 
@@ -128,9 +141,6 @@ def gameLoop():
 
         if (lead_x > randAppleX and lead_x < randAppleX + apple_size or lead_x +block_size > randAppleX and lead_x+block_size < randAppleX+apple_size) \
             and (lead_y > randAppleY and lead_y < randAppleY + apple_size or lead_y +block_size > randAppleY and lead_y+block_size < randAppleY +apple_size):
-                print(snakeHead)
-                print(randAppleX)
-                print(randAppleY)
                 randAppleX = round(random.randrange(0, gameDisplay.get_width()-apple_size))
                 randAppleY = round(random.randrange(0, gameDisplay.get_height()-apple_size))
         else:
