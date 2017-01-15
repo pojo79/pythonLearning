@@ -22,8 +22,15 @@ gameDisplay
 font = pygame.font.SysFont(None, 25)
 
 def message_to_screen(msg, color):
-    screen_text = font.render(msg, True, color)
-    gameDisplay.blit(screen_text, [gameDisplay.get_width()/2, gameDisplay.get_height()/2])
+    textSurf, textRect = textObjects(msg, color)
+    #screen_text = font.render(msg, True, color)
+    #gameDisplay.blit(screen_text, [gameDisplay.get_width()/2, gameDisplay.get_height()/2])
+    textRect.center = (gameDisplay.get_width()/2, gameDisplay.get_height()/2)
+    gameDisplay.blit(textSurf,textRect)
+
+def textObjects(msg, color):
+    textSurface = font.render(msg, True, color)
+    return textSurface, textSurface.get_rect()
 
 def eatApple(block_size):
     randAppleX = round(random.randrange(0, gameDisplay.get_width()-block_size)/10)*10
