@@ -24,6 +24,7 @@ pygame.display.set_caption('Slither')
 
 snakeHeadimg = pygame.image.load('snakehead.png')
 snakeBodyimg = pygame.image.load('snakebody.png')
+mouseImg = pygame.image.load('mouse.png')
 
 font = pygame.font.SysFont(None, 25)
 
@@ -126,7 +127,8 @@ def gameLoop():
       
         
         gameDisplay.fill(WHITE)
-        pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY, apple_size, apple_size])
+        gameDisplay.blit(mouseImg, (randAppleX, randAppleY))
+        #pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY, apple_size, apple_size])
 
         snakeHead = []
         snakeHead.append(lead_x)
