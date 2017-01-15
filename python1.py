@@ -8,7 +8,7 @@ WHITE = (255,255,255)
 GRAY = (155,155,155)
 BLACK = (0,0,0)
 RED = (255,0,0)
-GREEN = (0,155,0)
+GREEN = (0,155,1)
 FPS = 15
 
 gameDisplay = pygame.display.set_mode((800,600))
@@ -17,6 +17,7 @@ clock = pygame.time.Clock()
 pygame.display.update()
 
 pygame.display.set_caption('Slither')
+gameDisplay
 
 font = pygame.font.SysFont(None, 25)
 
@@ -50,9 +51,10 @@ def gameLoop():
     x_change = 0
     y_change = 0
     block_size = 10
+    apple_size = 20
 
-    randAppleX = round(random.randrange(0, gameDisplay.get_width()-block_size)/10)*10
-    randAppleY = round(random.randrange(0, gameDisplay.get_height()-block_size)/10)*10
+    randAppleX = round(random.randrange(0, gameDisplay.get_width()-apple_size))
+    randAppleY = round(random.randrange(0, gameDisplay.get_height()-apple_size))
     
     snakeList = []
     
@@ -105,7 +107,7 @@ def gameLoop():
       
         
         gameDisplay.fill(WHITE)
-        pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY, block_size, block_size])
+        pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY, apple_size, apple_size])
 
         snakeHead = []
         snakeHead.append(lead_x)
@@ -116,11 +118,14 @@ def gameLoop():
         for snakePart in snakeList[:-1]:
             if snakePart == snakeHead:
                 gameOver = True
-        
 
-        if lead_x == randAppleX and lead_y == randAppleY:
-            randAppleX = round(random.randrange(0, gameDisplay.get_width()-block_size)/10)*10
-            randAppleY = round(random.randrange(0, gameDisplay.get_height()-block_size)/10)*10
+        if (lead_x > randAppleX and lead_x < randAppleX + apple_size or lead_x +block_size > randAppleX and lead_x+block_size < randAppleX+apple_size) \
+            and (lead_y > randAppleY and lead_y < randAppleY + apple_size or lead_y +block_size > randAppleY and lead_y+block_size < randAppleY +apple_size):
+                print(snakeHead)
+                print(randAppleX)
+                print(randAppleY)
+                randAppleX = round(random.randrange(0, gameDisplay.get_width()-apple_size))
+                randAppleY = round(random.randrange(0, gameDisplay.get_height()-apple_size))
         else:
             del snakeList[0]
         
